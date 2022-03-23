@@ -1,8 +1,10 @@
 import { authApi } from '@/api-client';
 import { useAuth } from '@/hooks';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 
 export default function LoginPage() {
+  const router = useRouter();
   const { profile, login, logout } = useAuth({
     revalidateOnMount: false,
   });
@@ -12,6 +14,7 @@ export default function LoginPage() {
       await login();
 
       console.log('redirect to dashboard');
+      router.push('/about');
     } catch (error) {
       console.log('failed to login', error);
     }

@@ -17,6 +17,8 @@ export function useAuth(options?: Partial<PublicConfiguration>) {
     ...options,
   });
 
+  const firstLoading = profile === undefined && error === undefined;
+
   async function login() {
     await authApi.login({
       username: 'l15c',
@@ -33,6 +35,7 @@ export function useAuth(options?: Partial<PublicConfiguration>) {
   return {
     profile,
     error,
+    firstLoading,
     login,
     logout,
   };
