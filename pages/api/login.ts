@@ -29,7 +29,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
       proxyRes.on('data', (chunk) => {
         body += chunk;
       });
-
       proxyRes.on('end', () => {
         try {
           const { accessToken, expiredAt } = JSON.parse(body);
