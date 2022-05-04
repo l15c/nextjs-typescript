@@ -1,32 +1,27 @@
+import { Post } from '@/models';
 import { Card, CardContent, Divider, Stack, Typography } from '@mui/material';
 import * as React from 'react';
-
+import { format } from 'date-fns';
 export interface PostCardProps {
-  title: string;
-  date: string;
-  author: string;
-  description: string;
+  post: Post;
 }
 
-export function PostCard({ title, date, author, description }: PostCardProps) {
+export function PostCard({ post }: PostCardProps) {
+  if (!post) return null;
   return (
     <Card>
       <CardContent sx={{ p: 3 }}>
         <Typography variant="h5" fontWeight="bold">
-          {title}
+          {post.title}
         </Typography>
-        <Stack
-          direction="row"
-          mt={3}
-          mb={1}
-          divider={<Divider orientation="vertical" flexItem sx={{ borderColor: '#000', mx: 3 }} />}
-        >
-          <Typography>{date}</Typography>
 
-          <Typography>{author}</Typography>
-        </Stack>
+        <Typography variant="body1" display="flex" my={2}>
+          {format(Number(post.publishedDate), 'dd MMM yyyy')}
+          <Divider orientation="vertical" flexItem sx={{ borderColor: '#999', mx: 3 }} />
+          {post.tagList.join(', ')}
+        </Typography>
 
-        <Typography>{description}</Typography>
+        <Typography variant="body2">{post.description}</Typography>
       </CardContent>
     </Card>
   );
