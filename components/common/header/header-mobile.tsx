@@ -16,14 +16,14 @@ export interface HeaderMobileProps {}
 
 export function HeaderMobile(props: HeaderMobileProps) {
   const [open, setOpen] = useState(false);
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null);
 
   function handleDrawerOpen() {
     setOpen(true);
   }
 
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+    const checkIfClickedOutside = (e: any) => {
       // If the menu is open and the clicked target is not within the menu,
       // then close the menu
       if (open && ref.current && !ref.current.contains(e.target)) {
