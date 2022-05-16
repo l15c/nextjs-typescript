@@ -1,10 +1,22 @@
 import { Work } from '@/models';
-import * as React from 'react';
+import { Box, Divider } from '@mui/material';
+import { Fragment } from 'react';
+import { WorkCard } from './work-card';
 
 export interface WorkListProps {
   workList: Work[];
 }
 
 export function WorkList({ workList }: WorkListProps) {
-  return <div></div>;
+  if (workList.length === 0) return null;
+  return (
+    <Box>
+      {workList.map((work) => (
+        <Fragment key={work.id}>
+          <WorkCard work={work} />
+          <Divider sx={{ my: 3 }} />
+        </Fragment>
+      ))}
+    </Box>
+  );
 }
