@@ -8,6 +8,7 @@ export function RecentPosts() {
   const postList: Post[] = [
     {
       id: '1',
+      slug: '',
       title: 'Making a design system from scratch',
       publishedDate: '1650454555952',
       tagList: ['Design', 'Pattern'],
@@ -16,6 +17,7 @@ export function RecentPosts() {
     },
     {
       id: '2',
+      slug: '',
       title: 'Creating pixel perfect icons in Figma',
       publishedDate: '1650454555952',
       tagList: ['Figma', 'Icon Design'],
