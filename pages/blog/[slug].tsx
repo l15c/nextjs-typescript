@@ -5,11 +5,14 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { route } from 'next/dist/server/router';
 import { useRouter } from 'next/router';
 import * as React from 'react';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeDocument from 'rehype-document';
 import rehypeFormat from 'rehype-format';
+import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse/lib';
 import remarkRehype from 'remark-rehype';
+import remarkToc from 'remark-toc';
 import { unified } from 'unified';
 
 export interface BlogPageProps {
@@ -35,7 +38,6 @@ export default function PostDetailPage({ post }: BlogPageProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  console.log('\nGET STATIC PATHS');
   const postList = await getPostList();
 
   return {
@@ -57,7 +59,10 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async (
   // Parse md to HTML
   const file = await unified()
     .use(remarkParse)
+    .use(remarkToc, { heading: 'agenda.*' })
     .use(remarkRehype)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, { behavior: 'wrap' })
     .use(rehypeDocument, { title: 'Blog detail page' })
     .use(rehypeFormat)
     .use(rehypeStringify)
