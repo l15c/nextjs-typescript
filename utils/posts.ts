@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
 
 const BLOG_FOLDER = path.join(process.cwd(), 'blog');
 
-export async function getPostList() {
+export async function getPostList(): Promise<Post[]> {
   // read all markdown files
   const fileNameList = fs.readdirSync(BLOG_FOLDER);
 
@@ -33,7 +33,7 @@ export async function getPostList() {
         avatarUrl: data.author_image_url,
       },
       tagList: data.tags,
-      publishedDate: new Date().getTime().toString(),
+      publishedDate: data.date,
       description: excerpt || '',
       mdContent: content,
     });

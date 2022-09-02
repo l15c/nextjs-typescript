@@ -1,20 +1,40 @@
+import { PostItem } from '@/components/blog';
+import { MainLayout } from '@/components/layout';
+import { Post } from '@/models';
 import { getPostList } from '@/utils/posts';
+import { Box, Container, Divider } from '@mui/material';
 import { GetStaticProps } from 'next';
-import React from 'react';
+import Link from 'next/link';
 
 export interface BlogListPageProps {
-  posts: any[];
+  posts: Post[];
 }
 
-export default function BlogListPage(props: BlogListPageProps) {
+export default function BlogListPage({ posts }: BlogListPageProps) {
+  console.log('Post: ', posts);
   return (
-    <div>
-      <h1>Blog List Page</h1>
+    <Box>
+      <Container>
+        <h1>Blog</h1>
 
-      <ul></ul>
-    </div>
+        <Box component="ul" sx={{ listStyleType: 'none', p: 0 }}>
+          {posts.map((post) => (
+            <li key={post.id}>
+              <Link href={`/blog/${post.slug}`}>
+                <a>
+                  <PostItem post={post} />
+                </a>
+              </Link>
+              <Divider sx={{ my: 3 }} />
+            </li>
+          ))}
+        </Box>
+      </Container>
+    </Box>
   );
 }
+
+BlogListPage.Layout = MainLayout;
 
 export const getStaticProps: GetStaticProps<BlogListPageProps> = async () => {
   /**
@@ -23,11 +43,11 @@ export const getStaticProps: GetStaticProps<BlogListPageProps> = async () => {
    */
 
   // Convert markdown files into list of javascript objects
-  const data = await getPostList();
+  const postList = await getPostList();
 
   return {
     props: {
-      posts: data.map((x: any) => ({ id: x.id, title: x.title })),
+      posts: postList,
     },
   };
 };
