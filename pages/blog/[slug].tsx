@@ -2,7 +2,6 @@ import { Post } from '@/models';
 import { getPostList } from '@/utils/posts';
 import { Container, Divider } from '@mui/material';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
-import { route } from 'next/dist/server/router';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -16,16 +15,27 @@ import remarkRehype from 'remark-rehype';
 import remarkToc from 'remark-toc';
 import { unified } from 'unified';
 import Script from 'next/script';
+import { Seo } from '@/components/common';
 
 export interface BlogPageProps {
   post: Post;
 }
 
-export default function PostDetailPage({ post }: BlogPageProps) {
+export default function BlogDetailPage({ post }: BlogPageProps) {
   if (!post) return null;
 
   return (
     <>
+      <Seo
+        data={{
+          title: `${post.title}`,
+          description: post.description,
+          url: `${process.env.HOST_URL}/blog/${post.slug}`,
+          thumbnailUrl:
+            post.thumbnailUrl ||
+            `https://cdn.getshifter.co/caa65008efb706a8bfc6f7e4045d6a018420c3df/uploads/2020/11/nextjs-1200x733.png`,
+        }}
+      />
       <Container>
         <h1>Post Detail Page</h1>
         <p>{post.title}</p>
